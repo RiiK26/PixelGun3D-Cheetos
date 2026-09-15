@@ -143,8 +143,8 @@ namespace Offsets
   {
     constexpr uintptr_t set_MoveSpeedMultiplier_RVA = 0x9A8B50;
 
-    inline size_t velocityDownFallMultiplierOffset = 0;
-    inline bool   dynamicOffsetsResolved           = false;
+    inline size_t velocityDownFallMultiplierOffset  = 0;
+    inline bool   dynamicOffsetsResolved            = false;
 
     void InitDynamicOffsets();
   }  // namespace FirstPersonControlSharp
@@ -216,8 +216,7 @@ namespace Offsets
     constexpr uintptr_t get_Currency_RVA = 0x496100;
 
     // ItemPrice.get_Price()
-    constexpr uintptr_t get_Price_RVA =
-      0x900B70;  // get_Price for "Coins", "Gems", and "Lottery keys"
+    constexpr uintptr_t get_Price_RVA = 0x900B70;  // get_Price for "Coins", "Gems", and "Lottery keys"
   }  // namespace ItemPrice
 
   // ==========================================

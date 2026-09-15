@@ -31,7 +31,7 @@ namespace Hooks
   // ---- Store: Item Price Hook ----
   fn_ItemPriceGetCurrency oItemPriceGetCurrency = nullptr;
   fn_ItemPriceGetPrice    oItemPriceGetPrice    = nullptr;
-  int32_t                 hkItemPriceGetPrice(void* thisPtr)
+  int32_t hkItemPriceGetPrice(void* thisPtr)
   {
     if (CurrencyMod::Settings::bFreeStore)
       return 0;
@@ -98,12 +98,11 @@ namespace Hooks
     }
 
     return oShowResultCoroutine(
-      thisPtr, winner, ratingChange, showAward, realAddCoin, blueTotal, firstPlace, deadheatDuel,
-      param8, iAmWinnerInTeam, realAddExp, addEventCurrency, winnerCommand, bpCurrency,
-      pixelPassCurrency, param15, pixelPassExp, param17, param18, param19, clanCurrencyLimitReached,
-      addDetails, addModuleChest, winterPoints, vipRewards, springPt1Points, springPt2Points,
-      springPt2Currency, gemsByHarvester, balanceBrawlPoints, addGems, templateEventItems,
-      methodInfo
+      thisPtr, winner, ratingChange, showAward, realAddCoin, blueTotal, firstPlace, deadheatDuel, param8,
+      iAmWinnerInTeam, realAddExp, addEventCurrency, winnerCommand, bpCurrency, pixelPassCurrency, param15,
+      pixelPassExp, param17, param18, param19, clanCurrencyLimitReached, addDetails, addModuleChest, winterPoints,
+      vipRewards, springPt1Points, springPt2Points, springPt2Currency, gemsByHarvester, balanceBrawlPoints, addGems,
+      templateEventItems, methodInfo
     );
   }
 
@@ -129,13 +128,11 @@ namespace Hooks
     WeaponMod::ApplyAutoHeadshot(thisPtr, damageType);
 
     oApplyDamage(
-      thisPtr, damage, attacker, collider, hitPoint, damageType, typeDead, weaponId, someInt,
-      someEnum, methodInfo
+      thisPtr, damage, attacker, collider, hitPoint, damageType, typeDead, weaponId, someInt, someEnum, methodInfo
     );
   }
 
-  using fn_OnEventFired =
-    bool (*)(void* thisPtr, uint8_t eventCode, void* eventData, void* methodInfo);
+  using fn_OnEventFired         = bool (*)(void* thisPtr, uint8_t eventCode, void* eventData, void* methodInfo);
   fn_OnEventFired oOnEventFired = nullptr;
 
   bool hkOnEventFired(void* thisPtr, uint8_t eventCode, void* eventData, void* methodInfo)
@@ -158,8 +155,7 @@ namespace Hooks
       Offsets::SkinName::InitDynamicOffsets();
 
       if (Offsets::PlayerMoveC::mySkinNameOffset > 0 && Offsets::SkinName::isMineOffset > 0) {
-        void* skinName =
-          IL2CPP::SafeReadField<void*>(thisPtr, Offsets::PlayerMoveC::mySkinNameOffset);
+        void* skinName = IL2CPP::SafeReadField<void*>(thisPtr, Offsets::PlayerMoveC::mySkinNameOffset);
         if (skinName) {
           isLocalPlayer = IL2CPP::SafeReadField<bool>(skinName, Offsets::SkinName::isMineOffset);
         }
@@ -182,10 +178,10 @@ namespace Hooks
   }
 
   fn_CBD_Trigger oCBD_Trigger = nullptr;
-  void           hkCBD_Trigger() { /* NOP */ }
+  void hkCBD_Trigger() { /* NOP */ }
 
   fn_CBD_Show oCBD_Show = nullptr;
-  void        hkCBD_Show() { /* NOP */ }
+  void hkCBD_Show() { /* NOP */ }
 
 
   fn_Present oPresent = nullptr;
@@ -198,57 +194,39 @@ namespace Hooks
     auto gaBase = IL2CPP::gameAssemblyBase;
 
     // 1. Hook ApplyDamage for no fall damage
-    void* pApplyDamage =
-      reinterpret_cast<void*>(gaBase + Offsets::PlayerDamageable::ApplyDamage_RVA);
-    if (
-      MH_CreateHook(pApplyDamage, (void*) &hkApplyDamage, reinterpret_cast<void**>(&oApplyDamage))
-      != MH_OK
-    ) {
+    void* pApplyDamage = reinterpret_cast<void*>(gaBase + Offsets::PlayerDamageable::ApplyDamage_RVA);
+    if (MH_CreateHook(pApplyDamage, (void*) &hkApplyDamage, reinterpret_cast<void**>(&oApplyDamage)) != MH_OK) {
       return false;
     }
     MH_EnableHook(pApplyDamage);
 
     // 2. Hook OnEventFired to block network damage RPCs for God Mode
     void* pOnEventFired = reinterpret_cast<void*>(gaBase + Offsets::PlayerMoveC::OnEventFired_RVA);
-    if (
-      MH_CreateHook(
-        pOnEventFired, (void*) &hkOnEventFired, reinterpret_cast<void**>(&oOnEventFired)
-      )
-      != MH_OK
-    ) {
+    if (MH_CreateHook(pOnEventFired, (void*) &hkOnEventFired, reinterpret_cast<void**>(&oOnEventFired)) != MH_OK) {
       return false;
     }
     MH_EnableHook(pOnEventFired);
 
 
     auto cbdTriggerAddr = reinterpret_cast<void*>(gaBase + Offsets::AntiCheat::CBD_Trigger_RVA);
-    MH_CreateHook(
-      cbdTriggerAddr, reinterpret_cast<void*>(&hkCBD_Trigger),
-      reinterpret_cast<void**>(&oCBD_Trigger)
-    );
+    MH_CreateHook(cbdTriggerAddr, reinterpret_cast<void*>(&hkCBD_Trigger), reinterpret_cast<void**>(&oCBD_Trigger));
 
     auto cbdShowAddr = reinterpret_cast<void*>(gaBase + Offsets::AntiCheat::CBD_ShowBanner_RVA);
-    MH_CreateHook(
-      cbdShowAddr, reinterpret_cast<void*>(&hkCBD_Show), reinterpret_cast<void**>(&oCBD_Show)
-    );
+    MH_CreateHook(cbdShowAddr, reinterpret_cast<void*>(&hkCBD_Show), reinterpret_cast<void**>(&oCBD_Show));
 
     // 3. Hook the drop count getter
-    auto lotteryDropCountAddr =
-      reinterpret_cast<void*>(gaBase + Offsets::Lottery::LotteryDropCount_RVA);
+    auto lotteryDropCountAddr = reinterpret_cast<void*>(gaBase + Offsets::Lottery::LotteryDropCount_RVA);
     MH_CreateHook(
-      lotteryDropCountAddr, reinterpret_cast<void*>(&hkLotteryDropCount),
-      reinterpret_cast<void**>(&oLotteryDropCount)
+      lotteryDropCountAddr, reinterpret_cast<void*>(&hkLotteryDropCount), reinterpret_cast<void**>(&oLotteryDropCount)
     );
 
     // Store
-    auto itemPriceGetCurrencyAddr =
-      reinterpret_cast<void*>(gaBase + Offsets::ItemPrice::get_Currency_RVA);
+    auto itemPriceGetCurrencyAddr = reinterpret_cast<void*>(gaBase + Offsets::ItemPrice::get_Currency_RVA);
     MH_CreateHook(
       itemPriceGetCurrencyAddr, nullptr, reinterpret_cast<void**>(&oItemPriceGetCurrency)
     );  // We only need the original function ptr to call it
 
-    auto itemPriceGetPriceAddr =
-      reinterpret_cast<void*>(gaBase + Offsets::ItemPrice::get_Price_RVA);
+    auto itemPriceGetPriceAddr = reinterpret_cast<void*>(gaBase + Offsets::ItemPrice::get_Price_RVA);
     if (
       MH_CreateHook(
         itemPriceGetPriceAddr, reinterpret_cast<void*>(&hkItemPriceGetPrice),
@@ -259,8 +237,7 @@ namespace Hooks
       return false;
     }
 
-    auto storeItemPriceAddr =
-      reinterpret_cast<void*>(gaBase + Offsets::StoreItemData::get_Price_RVA);
+    auto storeItemPriceAddr = reinterpret_cast<void*>(gaBase + Offsets::StoreItemData::get_Price_RVA);
     if (
       MH_CreateHook(
         storeItemPriceAddr, reinterpret_cast<void*>(&hkStoreItemDataGetPrice),
@@ -271,21 +248,17 @@ namespace Hooks
       return false;
 
     // 5. Match Reward: Hook ShowResult coroutine
-    auto showResultAddr =
-      reinterpret_cast<void*>(gaBase + Offsets::MatchReward::ShowResultCoroutine_RVA);
+    auto showResultAddr = reinterpret_cast<void*>(gaBase + Offsets::MatchReward::ShowResultCoroutine_RVA);
     MH_CreateHook(
-      showResultAddr, reinterpret_cast<void*>(&hkShowResultCoroutine),
-      reinterpret_cast<void**>(&oShowResultCoroutine)
+      showResultAddr, reinterpret_cast<void*>(&hkShowResultCoroutine), reinterpret_cast<void**>(&oShowResultCoroutine)
     );
 
     // Dynamic resolution for Player_move_c::Update
-    void* updateMethod =
-      IL2CPP::class_get_method_from_name((void*) Offsets::Classes::PlayerMoveC, "Update", 0);
+    void* updateMethod = IL2CPP::class_get_method_from_name((void*) Offsets::Classes::PlayerMoveC, "Update", 0);
     if (updateMethod) {
       void* updatePointer = *reinterpret_cast<void**>(updateMethod);
       MH_CreateHook(
-        updatePointer, reinterpret_cast<void*>(&hkPlayerMoveC_Update),
-        reinterpret_cast<void**>(&oPlayerMoveC_Update)
+        updatePointer, reinterpret_cast<void*>(&hkPlayerMoveC_Update), reinterpret_cast<void**>(&oPlayerMoveC_Update)
       );
     }
 

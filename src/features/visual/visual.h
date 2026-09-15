@@ -46,24 +46,14 @@ namespace Visual
   using fn_Linecast = bool (*)(Vector3 start, Vector3 end, int layerMask);
   extern fn_Linecast pLinecast;
 
-  bool
-  WorldToScreen(Vector3 worldPos, Vector2& screenOut, void* camera, float screenW, float screenH);
+  bool WorldToScreen(Vector3 worldPos, Vector2& screenOut, void* camera, float screenW, float screenH);
 
   void InitMenu();
   bool ResolveUnityMethods();
   void TickMainThread();
   void RenderOverlay(void* pDrawList);
-  void DrawPlayerSkeleton(
-    void* drawList, Vector2 footScreen, Vector2 screenTop, bool isEnemy, void* pmc
-  );
-  void DrawPlayerBox(
-    void*   drawList,
-    Vector2 footScreen,
-    Vector2 screenTop,
-    bool    isEnemy,
-    float   screenW,
-    float   screenH
-  );
+  void DrawPlayerSkeleton(void* drawList, Vector2 footScreen, Vector2 screenTop, bool isEnemy, void* pmc);
+  void DrawPlayerBox(void* drawList, Vector2 footScreen, Vector2 screenTop, bool isEnemy, float screenW, float screenH);
   void DrawPlayerName(void* drawList, Vector2 footScreen, Vector2 screenTop, const char* name);
 
   void* GetAimbotTarget();

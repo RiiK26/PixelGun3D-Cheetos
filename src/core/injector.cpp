@@ -10,11 +10,11 @@
 
 // Console colors
 #define COLOR_DEFAULT 7
-#define COLOR_GREEN 10
-#define COLOR_RED 12
-#define COLOR_CYAN 11
-#define COLOR_YELLOW 14
-#define COLOR_PURPLE 13
+#define COLOR_GREEN   10
+#define COLOR_RED     12
+#define COLOR_CYAN    11
+#define COLOR_YELLOW  14
+#define COLOR_PURPLE  13
 
 void SetColor(int color) { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color); }
 
@@ -166,8 +166,7 @@ bool InjectDLL(DWORD pid, const std::wstring& dllPath)
     SetColor(COLOR_RED);
     std::cout << "  [!] Failed to open process (error " << err << ")." << std::endl;
     if (err == 5) {
-      std::cout << "  [!] Access denied. Run as Administrator or in the same Wine prefix."
-                << std::endl;
+      std::cout << "  [!] Access denied. Run as Administrator or in the same Wine prefix." << std::endl;
     }
     SetColor(COLOR_DEFAULT);
     return false;
@@ -178,9 +177,8 @@ bool InjectDLL(DWORD pid, const std::wstring& dllPath)
   SetColor(COLOR_DEFAULT);
 
   // Allocate memory in target process for DLL path
-  size_t pathSize = (dllPath.length() + 1) * sizeof(wchar_t);
-  void*  remoteMem =
-    VirtualAllocEx(hProcess, nullptr, pathSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+  size_t pathSize  = (dllPath.length() + 1) * sizeof(wchar_t);
+  void*  remoteMem = VirtualAllocEx(hProcess, nullptr, pathSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
   if (!remoteMem) {
     DWORD err = GetLastError();
     SetColor(COLOR_RED);
@@ -215,8 +213,7 @@ bool InjectDLL(DWORD pid, const std::wstring& dllPath)
 
   // Create remote thread to call LoadLibraryW
   HANDLE hThread = CreateRemoteThread(
-    hProcess, nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(loadLibrary), remoteMem, 0,
-    nullptr
+    hProcess, nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(loadLibrary), remoteMem, 0, nullptr
   );
 
   if (!hThread) {
@@ -319,8 +316,7 @@ int main(int argc, char* argv[])
         SetColor(COLOR_YELLOW);
         std::cout << "  [*] Still waiting... (" << waitCount << "s elapsed)" << std::endl;
         if (waitCount == 30) {
-          std::cout << "  [*] Tip: If the game is running, try --debug flag to list processes."
-                    << std::endl;
+          std::cout << "  [*] Tip: If the game is running, try --debug flag to list processes." << std::endl;
         }
         SetColor(COLOR_DEFAULT);
       }
@@ -379,10 +375,8 @@ int main(int argc, char* argv[])
   else {
     SetColor(COLOR_RED);
     std::cout << "  [!] Injection failed!" << std::endl;
-    std::cout << "  [!] Make sure you are running in the same Wine/Proton prefix as the game."
-              << std::endl;
-    std::cout << "  [!] On Linux, use: protontricks -c 'wine PG3D_Injector.exe' 2524890"
-              << std::endl;
+    std::cout << "  [!] Make sure you are running in the same Wine/Proton prefix as the game." << std::endl;
+    std::cout << "  [!] On Linux, use: protontricks -c 'wine PG3D_Injector.exe' 2524890" << std::endl;
     SetColor(COLOR_DEFAULT);
   }
 

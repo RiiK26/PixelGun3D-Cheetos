@@ -20,10 +20,10 @@ namespace Menu
   ID3D11RenderTargetView* pRenderTarget = nullptr;
   IDXGISwapChain*         pSwapChain    = nullptr;
 
-  HWND    hGameWindow = nullptr;
-  WNDPROC oWndProc    = nullptr;
+  HWND    hGameWindow                   = nullptr;
+  WNDPROC oWndProc                      = nullptr;
 
-  bool initialized = false;
+  bool initialized                      = false;
 
   namespace Settings
   {
@@ -195,18 +195,17 @@ namespace Menu
     sc->GetDesc(&desc);
     hGameWindow = desc.OutputWindow;
 
-    oWndProc = reinterpret_cast<WNDPROC>(
-      SetWindowLongPtr(hGameWindow, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc))
-    );
+    oWndProc =
+      reinterpret_cast<WNDPROC>(SetWindowLongPtr(hGameWindow, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProc)));
 
     ImGui::CreateContext();
     ImGuiIO& io    = ImGui::GetIO();
     io.IniFilename = nullptr;
 
     ImFontConfig fontConfig;
-    fontConfig.OversampleH = 1;
-    fontConfig.OversampleV = 1;
-    fontConfig.PixelSnapH  = true;
+    fontConfig.OversampleH        = 1;
+    fontConfig.OversampleV        = 1;
+    fontConfig.PixelSnapH         = true;
 
     static const ImWchar ranges[] = {
       0x0020, 0x00FF,  // Basic Latin + Latin Supplement
@@ -241,14 +240,14 @@ namespace Menu
     if (!Settings::bMenuOpen)
       return;
 
-    auto drawList = ImGui::GetBackgroundDrawList();
+    auto drawList                   = ImGui::GetBackgroundDrawList();
 
-    float screenH = ImGui::GetIO().DisplaySize.y;
+    float screenH                   = ImGui::GetIO().DisplaySize.y;
 
-    float startX    = 50.0f;
-    float startY    = 50.0f;
-    float rowHeight = 20.0f;
-    float padding   = 10.0f;
+    float startX                    = 50.0f;
+    float startY                    = 50.0f;
+    float rowHeight                 = 20.0f;
+    float padding                   = 10.0f;
 
     std::vector<int> visibleIndices = GetVisibleIndices();
     if (visibleIndices.empty())
@@ -282,14 +281,13 @@ namespace Menu
     }
 
     // Calculate how many items can fit on screen safely
-    float availableHeight =
-      screenH - startY - (padding * 2) - 30.0f - 20.0f;  // 20.0f bottom margin
-    int maxVisibleItems = static_cast<int>(availableHeight / rowHeight);
+    float availableHeight = screenH - startY - (padding * 2) - 30.0f - 20.0f;  // 20.0f bottom margin
+    int   maxVisibleItems = static_cast<int>(availableHeight / rowHeight);
     if (maxVisibleItems < 5)
       maxVisibleItems = 5;
 
     // Find current selected index in visible list
-    auto it = std::find(visibleIndices.begin(), visibleIndices.end(), selectedIndex);
+    auto it                   = std::find(visibleIndices.begin(), visibleIndices.end(), selectedIndex);
     int  selectedVisibleIndex = 0;
     if (it != visibleIndices.end()) {
       selectedVisibleIndex = std::distance(visibleIndices.begin(), it);
@@ -317,18 +315,14 @@ namespace Menu
 
     // Draw background
     drawList->AddRectFilled(
-      ImVec2(startX, startY), ImVec2(startX + width, startY + totalHeight),
-      IM_COL32(20, 20, 25, 230)
+      ImVec2(startX, startY), ImVec2(startX + width, startY + totalHeight), IM_COL32(20, 20, 25, 230)
     );
     drawList->AddRect(
-      ImVec2(startX, startY), ImVec2(startX + width, startY + totalHeight),
-      IM_COL32(100, 50, 200, 255), 0, 0, 2.0f
+      ImVec2(startX, startY), ImVec2(startX + width, startY + totalHeight), IM_COL32(100, 50, 200, 255), 0, 0, 2.0f
     );
 
     // Title
-    drawList->AddText(
-      ImVec2(startX + padding, startY + padding), IM_COL32(100, 200, 255, 255), titleStr.c_str()
-    );
+    drawList->AddText(ImVec2(startX + padding, startY + padding), IM_COL32(100, 200, 255, 255), titleStr.c_str());
 
     float currentY = startY + padding + 30.0f;
 
@@ -340,8 +334,7 @@ namespace Menu
       if (actualIndex == selectedIndex) {
         // Draw selection highlight
         drawList->AddRectFilled(
-          ImVec2(startX, currentY), ImVec2(startX + width, currentY + rowHeight),
-          IM_COL32(80, 40, 160, 180)
+          ImVec2(startX, currentY), ImVec2(startX + width, currentY + rowHeight), IM_COL32(80, 40, 160, 180)
         );
         textColor = IM_COL32(255, 255, 255, 255);
       }
@@ -349,36 +342,28 @@ namespace Menu
       if (item.type == ItemType::Header) {
         textColor              = IM_COL32(150, 150, 150, 255);
         std::string headerName = item.name + (item.isExpanded ? " [-]" : " [+]");
-        drawList->AddText(
-          ImVec2(startX + width / 2 - 40, currentY + 2), textColor, headerName.c_str()
-        );
+        drawList->AddText(ImVec2(startX + width / 2 - 40, currentY + 2), textColor, headerName.c_str());
       }
       else {
         drawList->AddText(ImVec2(startX + padding, currentY + 2), textColor, item.name.c_str());
 
         if (item.type == ItemType::Bool && item.bValue) {
-          const char* valStr = *item.bValue ? "[ ON ]" : "[ OFF ]";
-          ImU32 valColor = *item.bValue ? IM_COL32(50, 255, 50, 255) : IM_COL32(255, 50, 50, 255);
+          const char* valStr   = *item.bValue ? "[ ON ]" : "[ OFF ]";
+          ImU32       valColor = *item.bValue ? IM_COL32(50, 255, 50, 255) : IM_COL32(255, 50, 50, 255);
           drawList->AddText(ImVec2(startX + width - 60, currentY + 2), valColor, valStr);
         }
         else if (item.type == ItemType::Float && item.fValue) {
           char buf[32];
           snprintf(buf, sizeof(buf), "< %.2f >", *item.fValue);
-          drawList->AddText(
-            ImVec2(startX + width - 80, currentY + 2), IM_COL32(255, 255, 100, 255), buf
-          );
+          drawList->AddText(ImVec2(startX + width - 80, currentY + 2), IM_COL32(255, 255, 100, 255), buf);
         }
         else if (item.type == ItemType::Int && item.iValue) {
           char buf[32];
           snprintf(buf, sizeof(buf), "< %d >", *item.iValue);
-          drawList->AddText(
-            ImVec2(startX + width - 80, currentY + 2), IM_COL32(255, 255, 100, 255), buf
-          );
+          drawList->AddText(ImVec2(startX + width - 80, currentY + 2), IM_COL32(255, 255, 100, 255), buf);
         }
         else if (item.type == ItemType::Action) {
-          drawList->AddText(
-            ImVec2(startX + width - 80, currentY + 2), IM_COL32(200, 200, 200, 255), "[ ENTER ]"
-          );
+          drawList->AddText(ImVec2(startX + width - 80, currentY + 2), IM_COL32(200, 200, 200, 255), "[ ENTER ]");
         }
       }
 
@@ -389,19 +374,18 @@ namespace Menu
     float footerHeight = 25.0f;
     float footerStartY = startY + totalHeight;
     drawList->AddRectFilled(
-      ImVec2(startX, footerStartY), ImVec2(startX + width, footerStartY + footerHeight),
-      IM_COL32(30, 30, 40, 230)
+      ImVec2(startX, footerStartY), ImVec2(startX + width, footerStartY + footerHeight), IM_COL32(30, 30, 40, 230)
     );
     drawList->AddRect(
-      ImVec2(startX, footerStartY), ImVec2(startX + width, footerStartY + footerHeight),
-      IM_COL32(100, 50, 200, 255), 0, 0, 2.0f
+      ImVec2(startX, footerStartY), ImVec2(startX + width, footerStartY + footerHeight), IM_COL32(100, 50, 200, 255), 0,
+      0, 2.0f
     );
 
     footerText  = "[ARROWS] Navigate|[INSERT] Hide";
     footerTextW = ImGui::CalcTextSize(footerText.c_str()).x;
     drawList->AddText(
-      ImVec2(startX + (width - footerTextW) / 2.0f, footerStartY + 5.0f),
-      IM_COL32(150, 150, 150, 255), footerText.c_str()
+      ImVec2(startX + (width - footerTextW) / 2.0f, footerStartY + 5.0f), IM_COL32(150, 150, 150, 255),
+      footerText.c_str()
     );
   }
 

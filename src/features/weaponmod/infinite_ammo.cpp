@@ -17,8 +17,7 @@ namespace WeaponMod
     // Update live active weapon instance
     auto pmc = IL2CPP::GetLocalPlayerMoveC();
     if (pmc) {
-      void* charWeaponCurrent =
-        IL2CPP::ReadField<void*>(pmc, Offsets::PlayerMoveC::charWeaponCurrent);
+      void* charWeaponCurrent = IL2CPP::ReadField<void*>(pmc, Offsets::PlayerMoveC::charWeaponCurrent);
       if (charWeaponCurrent) {
         void* charWeaponClass = IL2CPP::object_get_class(charWeaponCurrent);
         if (charWeaponClass) {

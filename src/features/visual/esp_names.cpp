@@ -12,8 +12,8 @@ namespace Visual
     if (height < 5.0f)
       return;
 
-    float centerX = (footScreen.x + screenTop.x) * 0.5f;
-    float top     = screenTop.y;
+    float centerX  = (footScreen.x + screenTop.x) * 0.5f;
+    float top      = screenTop.y;
 
     ImDrawList* dl = reinterpret_cast<ImDrawList*>(drawList);
     dl->AddText(ImVec2(centerX - 20.0f, top - 14.0f), 0xFFFFFFFF, name);

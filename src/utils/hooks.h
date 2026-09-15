@@ -42,28 +42,25 @@ namespace Hooks
   );
 
   // ---- MinusLive Hook (God Mode alternative) ----
-  using fn_MinusLive =
-    void (*)(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
+  using fn_MinusLive = void (*)(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
   extern fn_MinusLive oMinusLive;
 
   void hkMinusLive(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
 
   // ---- MinusLiveReal Hook ----
-  using fn_MinusLiveReal =
-    void (*)(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
+  using fn_MinusLiveReal = void (*)(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
   extern fn_MinusLiveReal oMinusLiveReal;
 
-  void
-  hkMinusLiveReal(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
+  void hkMinusLiveReal(void* thisPtr, float damage, bool isHeadshot, int weaponType, void* methodInfo);
 
   // ---- CheatDetectedBanner Bypass ----
   using fn_CBD_Trigger = void (*)();
   extern fn_CBD_Trigger oCBD_Trigger;
-  void                  hkCBD_Trigger();
+  void hkCBD_Trigger();
 
   using fn_CBD_Show = void (*)();
   extern fn_CBD_Show oCBD_Show;
-  void               hkCBD_Show();
+  void hkCBD_Show();
 
   // ---- Lottery: Drop Count Hook (Chest Outputs) ----
   using fn_LotteryDropCount = int32_t (*)(void* arg);

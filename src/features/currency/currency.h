@@ -17,5 +17,5 @@ namespace CurrencyMod
   }  // namespace Settings
 
   void InitMenu();
-  int  OnLotteryDropCount(int originalCount);
+  int OnLotteryDropCount(int originalCount);
 }  // namespace CurrencyMod

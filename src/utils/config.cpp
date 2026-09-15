@@ -30,8 +30,8 @@ namespace Config
       return;
 
     nlohmann::json j;
-    j["weapon"]["aoe_bullets"] = WeaponMod::Settings::bAOEBullets;
-    j["weapon"]["aoe_radius"]  = WeaponMod::Settings::fAOERadius;
+    j["weapon"]["aoe_bullets"]          = WeaponMod::Settings::bAOEBullets;
+    j["weapon"]["aoe_radius"]           = WeaponMod::Settings::fAOERadius;
 
     j["visual"]["esp_boxes"]            = Visual::Settings::bPlayerESPBoxes;
     j["visual"]["esp_names"]            = Visual::Settings::bPlayerESPNames;
@@ -58,8 +58,8 @@ namespace Config
     j["currency"]["enable_reward_multiplier"] = CurrencyMod::Settings::bEnableRewardMultiplier;
     j["currency"]["coins_multiplier"]         = CurrencyMod::Settings::fCoinsMultiplier;
 
-    j["lottery"]["modify_output"] = CurrencyMod::Settings::bModifyChestOutput;
-    j["lottery"]["output_amount"] = CurrencyMod::Settings::iChestOutputAmount;
+    j["lottery"]["modify_output"]             = CurrencyMod::Settings::bModifyChestOutput;
+    j["lottery"]["output_amount"]             = CurrencyMod::Settings::iChestOutputAmount;
 
 
     // System
@@ -125,9 +125,7 @@ namespace Config
 
     // CurrencyMod
     LOAD_BOOL("currency", "free_store", CurrencyMod::Settings::bFreeStore);
-    LOAD_BOOL(
-      "currency", "enable_reward_multiplier", CurrencyMod::Settings::bEnableRewardMultiplier
-    );
+    LOAD_BOOL("currency", "enable_reward_multiplier", CurrencyMod::Settings::bEnableRewardMultiplier);
     LOAD_FLOAT("currency", "coins_multiplier", CurrencyMod::Settings::fCoinsMultiplier);
 
     LOAD_BOOL("lottery", "modify_output", CurrencyMod::Settings::bModifyChestOutput);

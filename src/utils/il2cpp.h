@@ -14,22 +14,22 @@ namespace IL2CPP
   bool Init();
   bool ResolveClasses();
 
-  void*     GetClass(const char* name, const char* namespaze = "");
-  void*     GetStaticFieldData(void* klass);
+  void* GetClass(const char* name, const char* namespaze = "");
+  void* GetStaticFieldData(void* klass);
   uintptr_t GetMethodAddress(uintptr_t rva);
 
-  void*       domain_get();
-  void**      domain_get_assemblies(void* domain, size_t* size);
-  void*       assembly_get_image(void* assembly);
+  void* domain_get();
+  void** domain_get_assemblies(void* domain, size_t* size);
+  void* assembly_get_image(void* assembly);
   const char* image_get_name(void* image);
-  void*       class_from_name(void* image, const char* namespaze, const char* name);
-  void*       class_get_method_from_name(void* klass, const char* name, int argsCount);
-  void*       class_get_fields(void* klass, void** iter);
+  void* class_from_name(void* image, const char* namespaze, const char* name);
+  void* class_get_method_from_name(void* klass, const char* name, int argsCount);
+  void* class_get_fields(void* klass, void** iter);
   const char* field_get_name(void* field);
-  size_t      field_get_offset(void* field);
-  size_t      GetFieldOffset(void* klass, const char* name);
-  void*       object_get_class(void* obj);
-  void*       string_new(const char* str);
+  size_t field_get_offset(void* field);
+  size_t GetFieldOffset(void* klass, const char* name);
+  void* object_get_class(void* obj);
+  void* string_new(const char* str);
 
   template<typename T>
   inline T ReadField(void* obj, uintptr_t offset)
@@ -77,8 +77,7 @@ namespace IL2CPP
       WriteField<T>(obj, offset, value);
   }
 
-  inline size_t
-  ResolveFieldOffset(void* klass, const std::vector<const char*>& names, size_t fallback = 0)
+  inline size_t ResolveFieldOffset(void* klass, const std::vector<const char*>& names, size_t fallback = 0)
   {
     for (const char* name : names) {
       size_t offset = GetFieldOffset(klass, name);
@@ -94,9 +93,7 @@ namespace IL2CPP
   {
     if (!arrayObj)
       return nullptr;
-    return reinterpret_cast<T*>(
-      reinterpret_cast<uintptr_t>(arrayObj) + Offsets::IL2CPPStructs::arrayDataOffset
-    );
+    return reinterpret_cast<T*>(reinterpret_cast<uintptr_t>(arrayObj) + Offsets::IL2CPPStructs::arrayDataOffset);
   }
 
   inline size_t GetArrayLength(void* arrayObj)
@@ -113,11 +110,11 @@ namespace IL2CPP
   {
     float x, y, z;
   };
-  void*   GetSystemTypeForClass(void* klass);
-  void*   FindObjectsOfType(void* type);
+  void* GetSystemTypeForClass(void* klass);
+  void* FindObjectsOfType(void* type);
   Vector3 GetTransformPosition(void* transform);
-  void    SetTransformPosition(void* transform, float x, float y, float z);
-  void    LookAt(void* transform, void* targetTransform);
+  void SetTransformPosition(void* transform, float x, float y, float z);
+  void LookAt(void* transform, void* targetTransform);
 
   // Player tracking
   std::vector<void*> GetPlayers();

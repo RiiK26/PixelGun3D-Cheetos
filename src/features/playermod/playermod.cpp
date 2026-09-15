@@ -27,16 +27,11 @@ namespace PlayerMod
     Menu::AddMenuItem({"Auto Heal", Menu::ItemType::Bool, &Settings::bAutoHeal});
     Menu::AddMenuItem({"High Jump", Menu::ItemType::Bool, &Settings::bHighJump});
     Menu::AddMenuItem(
-      {"Jump Multiplier", Menu::ItemType::Float, nullptr, &Settings::fJumpMultiplier, 1.0f, 10.0f,
-       0.5f}
+      {"Jump Multiplier", Menu::ItemType::Float, nullptr, &Settings::fJumpMultiplier, 1.0f, 10.0f, 0.5f}
     );
     Menu::AddMenuItem({"Speed Hack", Menu::ItemType::Bool, &Settings::bSpeedHack});
-    Menu::AddMenuItem(
-      {"Speed Multiplier", Menu::ItemType::Float, nullptr, &Settings::fSpeedHack, 1.1f, 10.0f, 0.5f}
-    );
+    Menu::AddMenuItem({"Speed Multiplier", Menu::ItemType::Float, nullptr, &Settings::fSpeedHack, 1.1f, 10.0f, 0.5f});
     Menu::AddMenuItem({"Fly", Menu::ItemType::Bool, &Settings::bFly});
-    Menu::AddMenuItem(
-      {"Fly Speed", Menu::ItemType::Float, nullptr, &Settings::fFlySpeed, 0.1f, 2.0f, 0.1f}
-    );
+    Menu::AddMenuItem({"Fly Speed", Menu::ItemType::Float, nullptr, &Settings::fFlySpeed, 0.1f, 2.0f, 0.1f});
   }
 }  // namespace PlayerMod

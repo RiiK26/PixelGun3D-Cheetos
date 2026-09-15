@@ -15,8 +15,7 @@ namespace PlayerMod
       return;
 
     Offsets::SkinName::InitDynamicOffsets();
-    void* firstPersonControl =
-      IL2CPP::SafeReadField<void*>(skinName, Offsets::SkinName::firstPersonControlOffset);
+    void* firstPersonControl = IL2CPP::SafeReadField<void*>(skinName, Offsets::SkinName::firstPersonControlOffset);
     if (!firstPersonControl)
       return;
 
