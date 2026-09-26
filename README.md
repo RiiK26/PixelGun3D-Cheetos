@@ -136,5 +136,8 @@ If you like this project and want to support its development, consider buying me
 
 </details>
 
+## DISCLAIMER
+> **Warning**: Using cheats in online games may violate the game's terms of service and could result in account suspension or banning. I'm not responsible for any consequences arising from its use.
+
 ## LICENSE
 This project under [MIT LICENSE](license)
