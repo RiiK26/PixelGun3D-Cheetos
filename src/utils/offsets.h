@@ -25,7 +25,7 @@ namespace Offsets
     constexpr uintptr_t visibleObjRef       = 0x7C8;      // visibleObjPhoton*
     constexpr uintptr_t nickLabel           = 0x418;      // TextMesh*
     constexpr uintptr_t playerBodyRenderer  = 0x488;      // SkinnedMeshRenderer*
-    constexpr uintptr_t OnEventFired_RVA    = 0x162C940;  // In Player_move_c
+    constexpr uintptr_t OnEventFired_RVA    = 0x162CCC0;  // In Player_move_c
 
     // Dynamic offsets resolved at runtime
     inline size_t mySkinNameOffset       = 0;
@@ -88,9 +88,9 @@ namespace Offsets
   namespace PlayerDamageable
   {
     constexpr uintptr_t playerMoveC     = 0x18;  // Player_move_c*
-    constexpr uintptr_t ApplyDamage_RVA = 0x1DDAEC0;
-    constexpr uintptr_t IsDead_RVA      = 0x1DDC3F0;
-    constexpr uintptr_t IsEnemyTo_RVA   = 0x1DDC410;
+    constexpr uintptr_t ApplyDamage_RVA = 0x1DDB240;
+    constexpr uintptr_t IsDead_RVA      = 0x1DDC770;
+    constexpr uintptr_t IsEnemyTo_RVA   = 0x1DDC790;
   }  // namespace PlayerDamageable
 
   // ==========================================
@@ -141,7 +141,7 @@ namespace Offsets
   // ==========================================
   namespace FirstPersonControlSharp
   {
-    constexpr uintptr_t set_MoveSpeedMultiplier_RVA = 0x9A8B50;
+    constexpr uintptr_t set_MoveSpeedMultiplier_RVA = 0x9A8ED0;
 
     inline size_t velocityDownFallMultiplierOffset  = 0;
     inline bool   dynamicOffsetsResolved            = false;
@@ -169,7 +169,7 @@ namespace Offsets
   // ==========================================
   namespace Object
   {
-    constexpr uintptr_t FindObjectsOfType_RVA = 0x47B5A90;
+    constexpr uintptr_t FindObjectsOfType_RVA = 0x47B6D80;
   }
 
   // ==========================================
@@ -177,10 +177,10 @@ namespace Offsets
   // ==========================================
   namespace AntiCheat
   {
-    constexpr uintptr_t CBD_Trigger_RVA    = 0x21B1160;  // static trigger method
-    constexpr uintptr_t CBD_Awake_RVA      = 0x21B0C30;
-    constexpr uintptr_t CBD_Update_RVA     = 0x21B11E0;
-    constexpr uintptr_t CBD_ShowBanner_RVA = 0x21B0EA0;  // static show method
+    constexpr uintptr_t CBD_Trigger_RVA    = 0x21B1380;  // static trigger method
+    constexpr uintptr_t CBD_Awake_RVA      = 0x21B0FB0;
+    constexpr uintptr_t CBD_Update_RVA     = 0x21B1560;
+    constexpr uintptr_t CBD_ShowBanner_RVA = 0x21B1220;  // static show method
   }  // namespace AntiCheat
 
   // ==========================================
@@ -190,7 +190,7 @@ namespace Offsets
   namespace Lottery
   {
     // GameEventItemData.get_Count() — returns int drop count
-    constexpr uintptr_t LotteryDropCount_RVA = 0xCFB580;
+    constexpr uintptr_t LotteryDropCount_RVA = 0xCFB900;
   }  // namespace Lottery
 
   // ==========================================
@@ -200,10 +200,7 @@ namespace Offsets
   namespace MatchReward
   {
     // NetworkStartTableNGUIController.Obf_B4BEBDFB() — ShowResult coroutine
-    constexpr uintptr_t ShowResultCoroutine_RVA = 0x1461350;
-
-    // NetworkStartTableNGUIController.Obf_763E52DA() — ApplyMatchReward (Actual value applier)
-    constexpr uintptr_t ApplyMatchReward_RVA = 0x145A150;
+    constexpr uintptr_t ShowResultCoroutine_RVA = 0x1455CA0;
   }  // namespace MatchReward
 
   // ==========================================
@@ -216,7 +213,7 @@ namespace Offsets
     constexpr uintptr_t get_Currency_RVA = 0x496100;
 
     // ItemPrice.get_Price()
-    constexpr uintptr_t get_Price_RVA = 0x900B70;  // get_Price for "Coins", "Gems", and "Lottery keys"
+    constexpr uintptr_t get_Price_RVA = 0x90AE20;  // get_Price for "Coins", "Gems", and "Lottery keys"
   }  // namespace ItemPrice
 
   // ==========================================
@@ -226,7 +223,7 @@ namespace Offsets
   namespace StoreItemData
   {
     // ClanStoreItemData (专丙丛三丒丈丅丙世).get_Price()
-    constexpr uintptr_t get_Price_RVA = 0x1885FD0;  // returns List<七丙三丒丞万一丏丕>
+    constexpr uintptr_t get_Price_RVA = 0x1886B50;  // returns List<七丙三丒丞万一丏丕>
   }  // namespace StoreItemData
 
   // ==========================================

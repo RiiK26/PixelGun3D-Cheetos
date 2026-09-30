@@ -4,31 +4,33 @@ import sys
 import os
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-DUMP_FILE = os.path.join(PROJECT_ROOT, "resources", "dumped", "static", "dump.cs")
+DUMP_FILE = os.path.join(PROJECT_ROOT, "resources", "dumped", "dump.cs")
 OFFSETS_FILE = os.path.join(PROJECT_ROOT, "src", "utils", "offsets.h")
 
 # Map old class names to new ones if they changed
 CLASS_MAPPINGS = {
-    "ItemPrice": "下下与丆丅丂三丄丑",
-    "ClanStoreItemData": "专丙丛三丒丈丅丙世"
+    "ItemPrice": "丏七丘丗丘一丙丕丒",
+    "ClanStoreItemData": "专丙世丏丁丐与与丈"
 }
 
 # Map variable names to their exact dump.cs names
 MAPPINGS = {
     # AntiCheat
-    "Trigger": "不东一丌万丑一万世",
-    "ShowBanner": "丈专丄七不丞与东丗",
+    "Trigger": "上丞丁丂丕丕上丝一",
+    "ShowBanner": "三丕丞丒丐丑丄丘丘",
     "LotteryDropCount": "get_Count",
 
     # MatchReward
-    "ShowResultCoroutine": "丗三下与丘与丗丅丌",
-    "ApplyMatchReward": "下丑丘丛下丞不七丛",
+    "ShowResultCoroutine": "七丕丐丟三下上丞丂",
 
     # WeaponSounds
     "sectorsAOEDmgMultFront": "sectorsAOEDamageMultiplierFront",
     "sectorsAOEDmgMultSide": "sectorsAOEDamageMultiplierSide",
     "sectorsAOEDmgMultBack": "sectorsAOEDamageMultiplierBack",
     "sectorsAOERadius": "sectorsAOERadiusSectorsAoE",
+
+    # Store
+    "get_Price": "三丟上丟丌丛丙七丕",
 }
 
 def run_update():

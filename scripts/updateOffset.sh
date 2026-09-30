@@ -9,7 +9,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 TOOLS_DIR="$PROJECT_ROOT/resources/tools"
-DUMPED_DIR="$PROJECT_ROOT/resources/dumped/static"
+DUMPED_DIR="$PROJECT_ROOT/resources/dumped/"
 VALIDATOR="$TOOLS_DIR/validate_offsets.py"
 LOG_DIR="$PROJECT_ROOT/resources/logs"
 LOG_FILE="$LOG_DIR/validate.log"

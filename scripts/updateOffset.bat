@@ -9,7 +9,7 @@ setlocal enabledelayedexpansion
 set "SCRIPT_DIR=%~dp0"
 set "PROJECT_ROOT=%SCRIPT_DIR%.."
 set "TOOLS_DIR=%PROJECT_ROOT%\resources\tools"
-set "DUMPED_DIR=%PROJECT_ROOT%\resources\dumped\static"
+set "DUMPED_DIR=%PROJECT_ROOT%\resources\dumped\"
 set "VALIDATOR=%TOOLS_DIR%\validate_offsets.py"
 set "LOG_DIR=%PROJECT_ROOT%\resources\logs"
 
