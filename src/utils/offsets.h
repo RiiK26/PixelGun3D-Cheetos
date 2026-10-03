@@ -8,7 +8,7 @@ namespace Offsets
   // ==========================================
   namespace WeaponManager
   {
-    constexpr uintptr_t StaticInstance = 0x230;  // WeaponManager singleton
+    constexpr uintptr_t StaticInstance = 0x238;  // WeaponManager singleton
     constexpr uintptr_t myPlayerMoveC  = 0x50;   // Player_move_c*
   }  // namespace WeaponManager
 
@@ -21,8 +21,8 @@ namespace Offsets
     constexpr uintptr_t myPlayerTransform   = 0x450;      // Transform*
     constexpr uintptr_t PlayerHeadTransform = 0x508;      // Transform*
     constexpr uintptr_t weaponSoundsRef     = 0x718;      // WeaponSounds* (current)
-    constexpr uintptr_t playerDamageable    = 0x6E8;      // PlayerDamageable*
-    constexpr uintptr_t visibleObjRef       = 0x7C8;      // visibleObjPhoton*
+    constexpr uintptr_t playerDamageable    = 0x740;      // PlayerDamageable*
+    constexpr uintptr_t visibleObjRef       = 0x820;      // visibleObjPhoton*
     constexpr uintptr_t nickLabel           = 0x470;      // TextMesh*
     constexpr uintptr_t playerBodyRenderer  = 0x4E0;      // SkinnedMeshRenderer*
     constexpr uintptr_t OnEventFired_RVA    = 0x153B640;  // In Player_move_c
