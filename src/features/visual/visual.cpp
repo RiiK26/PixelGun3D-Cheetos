@@ -225,9 +225,9 @@ namespace Visual
       static void* pIsDeadMethod    = nullptr;
       static void* pIsEnemyToMethod = nullptr;
       if (!pIsDeadMethod)
-        pIsDeadMethod = reinterpret_cast<void*>(IL2CPP::GetMethodAddress(Offsets::PlayerDamageable::IsDead_RVA));
+        pIsDeadMethod = reinterpret_cast<void*>(IL2CPP_METHOD(PlayerDamageable, IsDead));
       if (!pIsEnemyToMethod)
-        pIsEnemyToMethod = reinterpret_cast<void*>(IL2CPP::GetMethodAddress(Offsets::PlayerDamageable::IsEnemyTo_RVA));
+        pIsEnemyToMethod = reinterpret_cast<void*>(IL2CPP_METHOD(PlayerDamageable, IsEnemyTo));
 
       for (auto pmc : players) {
         if (!pmc || pmc == localPMC)

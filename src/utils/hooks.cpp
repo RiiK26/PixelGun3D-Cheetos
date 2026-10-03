@@ -194,39 +194,39 @@ namespace Hooks
     auto gaBase = IL2CPP::gameAssemblyBase;
 
     // 1. Hook ApplyDamage for no fall damage
-    void* pApplyDamage = reinterpret_cast<void*>(gaBase + Offsets::PlayerDamageable::ApplyDamage_RVA);
+    void* pApplyDamage = reinterpret_cast<void*>(IL2CPP_METHOD(PlayerDamageable, ApplyDamage));
     if (MH_CreateHook(pApplyDamage, (void*) &hkApplyDamage, reinterpret_cast<void**>(&oApplyDamage)) != MH_OK) {
       return false;
     }
     MH_EnableHook(pApplyDamage);
 
     // 2. Hook OnEventFired to block network damage RPCs for God Mode
-    void* pOnEventFired = reinterpret_cast<void*>(gaBase + Offsets::PlayerMoveC::OnEventFired_RVA);
+    void* pOnEventFired = reinterpret_cast<void*>(IL2CPP_METHOD(PlayerMoveC, OnEventFired));
     if (MH_CreateHook(pOnEventFired, (void*) &hkOnEventFired, reinterpret_cast<void**>(&oOnEventFired)) != MH_OK) {
       return false;
     }
     MH_EnableHook(pOnEventFired);
 
 
-    auto cbdTriggerAddr = reinterpret_cast<void*>(gaBase + Offsets::AntiCheat::CBD_Trigger_RVA);
+    auto cbdTriggerAddr = reinterpret_cast<void*>(IL2CPP_METHOD(AntiCheat, CBD_Trigger));
     MH_CreateHook(cbdTriggerAddr, reinterpret_cast<void*>(&hkCBD_Trigger), reinterpret_cast<void**>(&oCBD_Trigger));
 
-    auto cbdShowAddr = reinterpret_cast<void*>(gaBase + Offsets::AntiCheat::CBD_ShowBanner_RVA);
+    auto cbdShowAddr = reinterpret_cast<void*>(IL2CPP_METHOD(AntiCheat, CBD_ShowBanner));
     MH_CreateHook(cbdShowAddr, reinterpret_cast<void*>(&hkCBD_Show), reinterpret_cast<void**>(&oCBD_Show));
 
     // 3. Hook the drop count getter
-    auto lotteryDropCountAddr = reinterpret_cast<void*>(gaBase + Offsets::Lottery::LotteryDropCount_RVA);
+    auto lotteryDropCountAddr = reinterpret_cast<void*>(IL2CPP_METHOD(Lottery, LotteryDropCount));
     MH_CreateHook(
       lotteryDropCountAddr, reinterpret_cast<void*>(&hkLotteryDropCount), reinterpret_cast<void**>(&oLotteryDropCount)
     );
 
     // Store
-    auto itemPriceGetCurrencyAddr = reinterpret_cast<void*>(gaBase + Offsets::ItemPrice::get_Currency_RVA);
+    auto itemPriceGetCurrencyAddr = reinterpret_cast<void*>(IL2CPP_METHOD(ItemPrice, get_Currency));
     MH_CreateHook(
       itemPriceGetCurrencyAddr, nullptr, reinterpret_cast<void**>(&oItemPriceGetCurrency)
     );  // We only need the original function ptr to call it
 
-    auto itemPriceGetPriceAddr = reinterpret_cast<void*>(gaBase + Offsets::ItemPrice::get_Price_RVA);
+    auto itemPriceGetPriceAddr = reinterpret_cast<void*>(IL2CPP_METHOD(ItemPrice, get_Price));
     if (
       MH_CreateHook(
         itemPriceGetPriceAddr, reinterpret_cast<void*>(&hkItemPriceGetPrice),
@@ -237,7 +237,7 @@ namespace Hooks
       return false;
     }
 
-    auto storeItemPriceAddr = reinterpret_cast<void*>(gaBase + Offsets::StoreItemData::get_Price_RVA);
+    auto storeItemPriceAddr = reinterpret_cast<void*>(IL2CPP_METHOD(StoreItemData, get_Price));
     if (
       MH_CreateHook(
         storeItemPriceAddr, reinterpret_cast<void*>(&hkStoreItemDataGetPrice),
@@ -248,7 +248,7 @@ namespace Hooks
       return false;
 
     // 5. Match Reward: Hook ShowResult coroutine
-    auto showResultAddr = reinterpret_cast<void*>(gaBase + Offsets::MatchReward::ShowResultCoroutine_RVA);
+    auto showResultAddr = reinterpret_cast<void*>(IL2CPP_METHOD(MatchReward, ShowResultCoroutine));
     MH_CreateHook(
       showResultAddr, reinterpret_cast<void*>(&hkShowResultCoroutine), reinterpret_cast<void**>(&oShowResultCoroutine)
     );

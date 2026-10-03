@@ -1,5 +1,12 @@
 #include "il2cpp.h"
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <mutex>
+#include <optional>
+#include <unordered_map>
+
 namespace IL2CPP
 {
   // Function pointer typedefs
@@ -182,8 +189,27 @@ namespace IL2CPP
     static fn_FindObjectsOfType pFindObjectsOfType = nullptr;
 
     if (!pFindObjectsOfType) {
-      pFindObjectsOfType =
-        reinterpret_cast<fn_FindObjectsOfType>(GetMethodAddress(Offsets::Object::FindObjectsOfType_RVA));
+      /*pFindObjectsOfType = reinterpret_cast<fn_FindObjectsOfType>(IL2CPP_METHOD(Object, FindObjectsOfType));*/
+      void* coreModuleImage = nullptr;
+      if (auto domain = domain_get()) {
+        size_t asmCount = 0;
+        if (auto assemblies = domain_get_assemblies(domain, &asmCount)) {
+          for (size_t i = 0; i < asmCount; i++) {
+            auto img = assembly_get_image(assemblies[i]);
+            if (img && image_get_name(img) && strstr(image_get_name(img), "UnityEngine.CoreModule")) {
+              coreModuleImage = img;
+              break;
+            }
+          }
+        }
+      }
+      if (coreModuleImage) {
+        if (void* objectClass = class_from_name(coreModuleImage, "UnityEngine", "Object")) {
+          if (void* method = class_get_method_from_name(objectClass, "FindObjectsOfType", 1)) {
+            pFindObjectsOfType = reinterpret_cast<fn_FindObjectsOfType>(*reinterpret_cast<void**>(method));
+          }
+        }
+      }
     }
 
     if (!pFindObjectsOfType || !type)
@@ -344,6 +370,103 @@ namespace IL2CPP
   }
 
   uintptr_t GetMethodAddress(uintptr_t rva) { return gameAssemblyBase + rva; }
+
+  namespace
+  {
+    // Parses "48 8B ?? 05" -> bytes + wildcard mask (std::nullopt == wildcard)
+    std::vector<std::optional<uint8_t>> ParsePattern(const char* sig)
+    {
+      std::vector<std::optional<uint8_t>> out;
+      for (const char* p = sig; *p;) {
+        if (*p == ' ') {
+          ++p;
+          continue;
+        }
+        if (*p == '?') {
+          out.emplace_back(std::nullopt);
+          while (*p == '?')
+            ++p;
+          continue;
+        }
+        char* end = nullptr;
+        out.emplace_back(static_cast<uint8_t>(strtoul(p, &end, 16)));
+        if (end == p)
+          break;
+        p = end;
+      }
+      return out;
+    }
+
+    // Returns the unique match address, or 0 if none / more than one.
+    uintptr_t ScanUnique(const std::vector<std::optional<uint8_t>>& pat)
+    {
+      if (pat.empty() || !pat[0] || !gameAssemblyBase)
+        return 0;
+
+      auto dos        = reinterpret_cast<const IMAGE_DOS_HEADER*>(gameAssemblyBase);
+      auto nt         = reinterpret_cast<const IMAGE_NT_HEADERS*>(gameAssemblyBase + dos->e_lfanew);
+      auto sec        = IMAGE_FIRST_SECTION(nt);
+
+      uintptr_t found = 0;
+      for (WORD i = 0; i < nt->FileHeader.NumberOfSections; ++i, ++sec) {
+        if (!(sec->Characteristics & IMAGE_SCN_MEM_EXECUTE))
+          continue;
+        auto*        begin = reinterpret_cast<const uint8_t*>(gameAssemblyBase + sec->VirtualAddress);
+        const size_t size  = sec->Misc.VirtualSize;
+        if (size < pat.size())
+          continue;
+
+        const uint8_t* cur  = begin;
+        const uint8_t* last = begin + size - pat.size();
+        while (cur <= last) {
+          cur = static_cast<const uint8_t*>(memchr(cur, *pat[0], static_cast<size_t>(last - cur) + 1));
+          if (!cur)
+            break;
+          size_t j = 1;
+          while (j < pat.size() && (!pat[j] || cur[j] == *pat[j]))
+            ++j;
+          if (j == pat.size()) {
+            if (found)
+              return 0;  // ambiguous
+            found = reinterpret_cast<uintptr_t>(cur);
+          }
+          ++cur;
+        }
+      }
+      return found;
+    }
+  }  // namespace
+
+  uintptr_t ResolveMethod(const char* sig, uintptr_t fallbackRva, const char* debugName)
+  {
+    static std::mutex                                 cacheMutex;
+    static std::unordered_map<const char*, uintptr_t> cache;
+
+    const uintptr_t fallback = gameAssemblyBase + fallbackRva;
+    if (!sig || !*sig)
+      return fallback;
+
+    std::lock_guard lock(cacheMutex);
+    if (auto it = cache.find(sig); it != cache.end())
+      return it->second;
+
+    uintptr_t addr = ScanUnique(ParsePattern(sig));
+    if (!addr) {
+      printf(
+        "[SIG] %s: not found/ambiguous, using RVA 0x%llX\n", debugName ? debugName : sig,
+        static_cast<unsigned long long>(fallbackRva)
+      );
+      addr = fallback;
+    }
+    else if (addr != fallback) {
+      printf(
+        "[SIG] %s: moved RVA 0x%llX -> 0x%llX (update offsets.h)\n", debugName ? debugName : sig,
+        static_cast<unsigned long long>(fallbackRva), static_cast<unsigned long long>(addr - gameAssemblyBase)
+      );
+    }
+    cache.emplace(sig, addr);
+    return addr;
+  }
 
   bool ResolveClasses()
   {

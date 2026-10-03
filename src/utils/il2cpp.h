@@ -18,6 +18,14 @@ namespace IL2CPP
   void* GetStaticFieldData(void* klass);
   uintptr_t GetMethodAddress(uintptr_t rva);
 
+  // Resolves a method by AOB signature (unique match in GameAssembly code),
+  // falling back to gameAssemblyBase + fallbackRva. Cached per signature.
+  uintptr_t ResolveMethod(const char* sig, uintptr_t fallbackRva, const char* debugName = nullptr);
+
+// Usage: IL2CPP_METHOD(PlayerDamageable, ApplyDamage) -> absolute address
+#define IL2CPP_METHOD(ns, name) \
+  ::IL2CPP::ResolveMethod(::Offsets::ns::name##_SIG, ::Offsets::ns::name##_RVA, #ns "::" #name)
+
   void* domain_get();
   void** domain_get_assemblies(void* domain, size_t* size);
   void* assembly_get_image(void* assembly);
