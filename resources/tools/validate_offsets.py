@@ -9,8 +9,8 @@ OFFSETS_FILE = os.path.join(PROJECT_ROOT, "src", "utils", "offsets.h")
 
 # Map old class names to new ones if they changed
 CLASS_MAPPINGS = {
-    "ItemPrice": "丏七丘丗丘一丙丕丒",
-    "ClanStoreItemData": "专丙世丏丁丐与与丈"
+    "ItemPrice": "一世丄与东丐丟世丅",
+    "ClanStoreItemData": "下丕下东丛丕七三丝"
 }
 
 # Map variable names to their exact dump.cs names
@@ -21,7 +21,7 @@ MAPPINGS = {
     "LotteryDropCount": "get_Count",
 
     # MatchReward
-    "ShowResultCoroutine": "七丕丐丟三下上丞丂",
+    "ShowResultCoroutine": "丙万丈一丕三丛专丏",
 
     # WeaponSounds
     "sectorsAOEDmgMultFront": "sectorsAOEDamageMultiplierFront",
@@ -30,7 +30,8 @@ MAPPINGS = {
     "sectorsAOERadius": "sectorsAOERadiusSectorsAoE",
 
     # Store
-    "get_Price": "三丟上丟丌丛丙七丕",
+    "get_Price": "丝丙丛业丕上丟不与",
+    "get_Currency": "丂与丁丙上丁丐丒业",
 }
 
 def run_update():
@@ -122,7 +123,7 @@ def run_update():
             current_ns = ""
 
         # Match a constexpr uintptr_t variable
-        constexpr_match = re.search(r'(constexpr\s+uintptr_t\s+(\w+)\s*=\s*)(0x[0-9a-fA-F]+)(;.*)', line)
+        constexpr_match = re.search(r'(\s*constexpr\s+uintptr_t\s+(\w+)\s*=\s*)(0x[0-9a-fA-F]+)(;.*)', line)
         if constexpr_match:
             prefix = constexpr_match.group(1)
             var_name = constexpr_match.group(2)
